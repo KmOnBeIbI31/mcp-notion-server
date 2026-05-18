@@ -1,3 +1,23 @@
+## ✨ Additional Tools (by KmOnBeIbI31)
+
+This fork adds two new tools on top of the original server:
+
+### `notion_weekly_summary`
+Returns a summary of all Notion pages modified in the last N days (default: 7).
+Useful for weekly reviews, standups, or catching up on recent workspace activity.
+
+**Parameters:**
+- `days` (optional): Number of days to look back. Defaults to 7.
+
+---
+
+### `notion_find_duplicates`
+Scans a Notion data source and returns all entries with duplicate titles.
+Useful for cleaning up CRM databases, contact lists, or any database with repeated entries.
+
+**Parameters:**
+- `data_source_id` (required): The ID of the Notion data source to scan.
+
 # Notion MCP Server
 
 AI-friendly MCP server for the Notion API. It helps agents find, read, query, and update Notion workspaces while keeping responses compact enough for day-to-day AI workflows.
