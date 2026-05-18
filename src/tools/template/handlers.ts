@@ -6,6 +6,20 @@ function formatNotionId(id: string): string {
     return `${clean.slice(0, 8)}-${clean.slice(8, 12)}-${clean.slice(12, 16)}-${clean.slice(16, 20)}-${clean.slice(20)}`;
 }
 
+function cleanBlock(block: any): any {
+    const allowedTypes = [
+        "paragraph", "heading_1", "heading_2", "heading_3",
+        "bulleted_list_item", "numbered_list_item", "to_do",
+        "toggle", "code", "quote", "callout", "divider",
+    ];
+    if (!allowedTypes.includes(block.type)) return null;
+    return {
+        object: "block",
+        type: block.type,
+        [block.type]: block[block.type],
+    };
+}
+
 export const templateToolHandlers: ToolHandlerMap = {
     async notion_create_from_template(toolArguments, { notionClient }) {
         const { template_page_id, new_page_title, parent_page_id } =
@@ -16,48 +30,38 @@ export const templateToolHandlers: ToolHandlerMap = {
             };
 
         if (!template_page_id || !new_page_title || !parent_page_id) {
-            throw new Error(
-                "Missing required arguments: template_page_id, new_page_title, parent_page_id"
-            );
+            throw new Error("Missing required arguments");
         }
 
-        // 1. Leer los bloques de la plantilla
+        // 1. Leer bloques de la plantilla
         const templateBlocks = await notionClient.retrieveBlockChildren(
             formatNotionId(template_page_id)
         );
 
-        // 2. Crear la nueva página via updatePageProperties en el padre
-        const newPage = await notionClient.appendBlockChildren(
-            formatNotionId(parent_page_id),
-            [
-                {
-                    type: "child_page",
-                    child_page: { title: new_page_title },
-                } as any,
-            ]
-        );
+        const cleanBlocks = (templateBlocks.results as any[])
+            .map(cleanBlock)
+            .filter(Boolean);
 
-        const newPageId = (newPage as any).results?.[0]?.id;
-
-        if (!newPageId) {
-            throw new Error("Failed to create new page");
-        }
-
-        // 3. Copiar los bloques de la plantilla a la nueva página
-        if (templateBlocks.results && templateBlocks.results.length > 0) {
-            const blocksToAppend = (templateBlocks.results as any[]).map((block: any) => {
-                const { id, created_time, last_edited_time, created_by, last_edited_by, parent, ...rest } = block;
-                return rest;
-            });
-
-            await notionClient.appendBlockChildren(newPageId, blocksToAppend);
-        }
+        // 2. Crear página nueva via endpoint /pages directamente
+        const newPage = await (notionClient as any).request("/pages", {
+            method: "POST",
+            body: JSON.stringify({
+                parent: { page_id: formatNotionId(parent_page_id) },
+                properties: {
+                    title: {
+                        title: [{ type: "text", text: { content: new_page_title } }],
+                    },
+                },
+                children: cleanBlocks,
+            }),
+        });
 
         return {
             success: true,
-            new_page_id: newPageId,
+            new_page_id: newPage.id,
+            new_page_url: newPage.url,
             new_page_title,
-            blocks_copied: templateBlocks.results?.length ?? 0,
+            blocks_copied: cleanBlocks.length,
         };
     },
 };
