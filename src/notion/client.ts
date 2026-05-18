@@ -257,6 +257,29 @@ export class NotionClientWrapper {
     });
   }
 
+  async queryDatabase(
+    database_id: string,
+    filter?: NotionJsonObject,
+    sorts?: Array<{
+      property?: string;
+      timestamp?: string;
+      direction: "ascending" | "descending";
+    }>,
+    start_cursor?: string,
+    page_size?: number,
+  ): Promise<ListResponse> {
+    const body: NotionJsonObject = {};
+    if (filter) body.filter = filter;
+    if (sorts) body.sorts = sorts;
+    if (start_cursor) body.start_cursor = start_cursor;
+    if (page_size) body.page_size = page_size;
+
+    return this.request<ListResponse>(`/databases/${database_id}/query`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+  }
+
   async retrieveDatabase(database_id: string): Promise<DatabaseResponse> {
     return this.request<DatabaseResponse>(`/databases/${database_id}`, {
       method: "GET",

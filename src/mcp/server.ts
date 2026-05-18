@@ -66,6 +66,7 @@ import {
   retrievePageTool,
   updatePagePropertiesTool,
 } from "../tools/pages/definitions.js";
+import { weeklySummaryTool } from "../tools/summary/definitions.js";
 import { pageToolHandlers } from "../tools/pages/handlers.js";
 import { optimizeToolResponse } from "../tools/response-optimizer.js";
 import type { ToolHandlerMap } from "../tools/types.js";
@@ -76,6 +77,9 @@ import {
   isMarkdownConvertibleResponse,
 } from "./result.js";
 import { promptArgsShape, toolInputSchema } from "./schema.js";
+import { summaryToolHandlers } from "../tools/summary/handlers.js";
+import { findDuplicatesTool } from "../tools/duplicates/definitions.js";
+import { duplicatesToolHandlers } from "../tools/duplicates/handlers.js";
 
 export { formatJsonToolResult, formatToolError } from "./result.js";
 
@@ -94,6 +98,8 @@ const toolHandlers: ToolHandlerMap = {
   ...pageToolHandlers,
   ...dataSourceToolHandlers,
   ...discoveryToolHandlers,
+  ...summaryToolHandlers,
+  ...duplicatesToolHandlers,
 };
 
 export function getServerInstructions(): string {
@@ -133,6 +139,8 @@ export function getAllTools(): Tool[] {
     findTool,
     inspectDataSourceTool,
     searchTool,
+    weeklySummaryTool,
+    findDuplicatesTool,
   ];
 }
 
