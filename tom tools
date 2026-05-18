@@ -1,0 +1,52 @@
+[33mcommit 6c2c0ae2037f59625debf33b351f06e1051aa4dc[m
+Merge: efda9b8 bf019ed
+Author: suekou <suekou2004_0904@yahoo.co.jp>
+Date:   Tue May 5 10:07:30 2026 +0900
+
+    Merge pull request #72 from suekou/feature/notion-mcp-2026-ai-first
+    
+    feat: Notion MCP v2.0 - AI-first tools, Data Sources, and Node 22+ migration
+
+[33mcommit 04d937be5a21f63436a6aff620b97ef0ebc9b0ee[m
+Author: Kosuke Suenaga <suekou2004_0904@yahoo.co.jp>
+Date:   Tue May 5 09:33:02 2026 +0900
+
+    chore: downgrade Node.js version to 22, remove .npmrc, and update dependencies
+
+[33mcommit 7c5805f2ac929270a4dd3cb7bd6087ce74af27bb[m
+Author: Kosuke Suenaga <suekou2004_0904@yahoo.co.jp>
+Date:   Tue May 5 08:34:17 2026 +0900
+
+    feat: integrate React and Tailwind CSS for Notion apps, add build scripts and configurations
+
+[33mcommit 509ade47b3bc1462ca27f39418c4a61ba843f52b[m
+Author: Kosuke Suenaga <suenaga.kosuke@classmethod.jp>
+Date:   Mon May 4 17:05:18 2026 +0900
+
+    chore: update TypeScript module resolution for NodeNext
+
+[33mcommit b7554c4278e06098e0296116d8fe03f5ca8a1175[m
+Merge: b345c11 6f89e09
+Author: suekou <suekou2004_0904@yahoo.co.jp>
+Date:   Wed Apr 9 12:26:48 2025 +0900
+
+    Merge pull request #44 from suekou/split-file
+    
+    Refactor: Reorganize Project Structure and Improve Documentation
+
+[33mcommit 6f89e09a58fac80db95e46188f42cc882ba0ee6b[m
+Author: Kosuke Suenaga <suekou2004_0904@yahoo.co.jp>
+Date:   Wed Apr 9 12:21:40 2025 +0900
+
+    refactor: move project files from notion/ to root directory
+    
+    - Restructure project by moving all files from notion/ subdirectory to root
+    - Update package.json to remove "notion" from files field
+    - Improve project structure to follow standard Node.js conventions
+    - No functional changes or impacts on npm package publishing
+
+[33mcommit 1a161e2ade379c171be96c93c427be7be8acb883[m
+Author: Kosuke Suenaga <suekou2004_0904@yahoo.co.jp>
+Date:   Sat Nov 30 19:43:23 2024 +0900
+
+    feat: add notion server

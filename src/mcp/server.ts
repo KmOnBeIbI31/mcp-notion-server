@@ -80,6 +80,8 @@ import { promptArgsShape, toolInputSchema } from "./schema.js";
 import { summaryToolHandlers } from "../tools/summary/handlers.js";
 import { findDuplicatesTool } from "../tools/duplicates/definitions.js";
 import { duplicatesToolHandlers } from "../tools/duplicates/handlers.js";
+import { createFromTemplateTool } from "../tools/template/definitions.js";
+import { templateToolHandlers } from "../tools/template/handlers.js";
 
 export { formatJsonToolResult, formatToolError } from "./result.js";
 
@@ -100,6 +102,7 @@ const toolHandlers: ToolHandlerMap = {
   ...discoveryToolHandlers,
   ...summaryToolHandlers,
   ...duplicatesToolHandlers,
+  ...templateToolHandlers,
 };
 
 export function getServerInstructions(): string {
@@ -141,6 +144,7 @@ export function getAllTools(): Tool[] {
     searchTool,
     weeklySummaryTool,
     findDuplicatesTool,
+    createFromTemplateTool,
   ];
 }
 
